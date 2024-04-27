@@ -59,7 +59,7 @@ const authController = {
 
             return res
                 .status(200)
-                .cookie('access-token', token, {
+                .cookie('access_token', token, {
                     httpOnly: true
                 })
                 .send({
