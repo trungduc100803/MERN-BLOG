@@ -69,6 +69,21 @@ const postControllers = {
         } catch (error) {
             next(error)
         }
+    },
+    deletePost: async (req, res, next) => {
+        if(!req.user.isAdmin || !req.user.id || !req.params.userID){
+            return next(errorHandler(403, "You are not allowed to delete this post"))
+        }
+
+        try {
+            await Post.findByIdAndDelete(req.params.postId)
+            return res.status(200).send({
+                success: true,
+                message: 'The post has been deleted'
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

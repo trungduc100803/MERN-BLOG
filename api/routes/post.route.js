@@ -6,5 +6,6 @@ import { verifyToken } from '../utils/verifyUser.js'
 //verify
 router.post('/create-post', verifyToken, postControllers.createPost)
 router.get('/getpost', postControllers.getPost)
+router.delete('/delete-post/:postId/:userID', verifyToken, postControllers.deletePost)
 
 export default router
