@@ -51,8 +51,7 @@ const authController = {
 
             const token = JWT.sign(
                 { id: validUser._id },
-                process.env.SECRETKEY,
-                { expiresIn: '1d' }
+                process.env.SECRETKEY
             )
 
             const { password: pass, ...rest } = validUser._doc
