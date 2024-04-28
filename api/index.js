@@ -5,7 +5,9 @@ import cors from 'cors'
 import cookie_parser from 'cookie-parser'
 
 import userRouter from './routes/user.route.js'
-import authController from './routes/auth.route.js'
+import authRouter from './routes/auth.route.js'
+import postRouter from './routes/post.route.js'
+
 
 dotenv.config()
 const app = express()
@@ -27,7 +29,8 @@ mongoose
 
 
 app.use('/api/user', userRouter)
-app.use('/api/auth', authController)
+app.use('/api/auth', authRouter)
+app.use('/api/post', postRouter)
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500
