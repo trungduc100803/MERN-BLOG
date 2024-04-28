@@ -4,16 +4,18 @@ import 'react-quill/dist/quill.snow.css';
 import {Alert, Button, FileInput, Select, TextInput} from 'flowbite-react'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
 import {CircularProgressbar} from 'react-circular-progressbar'
+import { useNavigate } from 'react-router-dom';
 
+import { routes } from '../routes';
 import {app} from '../firebase'
 
 const CreatePost = () => {
+    const navigate = useNavigate()
     const [file, setFie] = useState(null)
     const [uploadImageProgress, setUploadImageProgress] = useState(null)
     const [uploadImageError, setUploadImageError] = useState(null)
     const [formData, setFormData] = useState({})
     const [publishError, setPublishError]= useState(null)
-    console.log(formData)
 
     const handleUpkoadImage =async () => {
         try {
@@ -72,6 +74,7 @@ const CreatePost = () => {
             }
             if(res.ok){
                 setPublishError(null)
+                navigate(`/post/${data.post.slug}`)
             }
         } catch (error) {
             setPublishError('Something went wrong')
