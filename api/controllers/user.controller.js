@@ -43,7 +43,22 @@ const userController = {
          } catch (error) {
             next(error)
         }
-    }   
+    }  ,
+    deleteUser: async (req, res, next) => {
+        if(req.user.id !== req.params.userID){
+            return next(errorHandler(400, 'You are not allowed to delete this user'))
+        }
+
+        try {
+            await User.findByIdAndDelete(req.user.id)
+            return res.status(200).send({
+                success: true,
+                message: 'User has been deleted'
+            })
+        } catch (error) {
+            next(error)
+        }
+    } 
 }
 
 export default userController
