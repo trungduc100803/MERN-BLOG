@@ -13,6 +13,7 @@ const OAuth = () => {
     const auth = getAuth(app)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
     const handleGoogleClick = async () => {
         const provider = new GoogleAuthProvider()
         provider.setCustomParameters({ prompt: 'select_account' })
@@ -29,6 +30,7 @@ const OAuth = () => {
             })
 
             const data = await res.json()
+            console.log(data)
             if (data.success) {
                 dispatch(signInSuccess(data.user))
                 navigate('/')

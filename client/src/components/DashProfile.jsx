@@ -8,7 +8,7 @@ import {AiOutlineExclamationCircle} from 'react-icons/ai'
 
 import { app } from '../firebase'
 import serviceApi from '../api/index.api';
-import { updateFailure, updateStart, updateSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess } from '../redux/user/userSlice';
+import { updateFailure, updateStart, updateSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutSuccess } from '../redux/user/userSlice';
 
 const DashProfile = () => {
     const dispatch = useDispatch()
@@ -142,7 +142,25 @@ const DashProfile = () => {
                 dispatch(deleteUserSuccess())
             }
         } catch (error) {
-            dispatch(deleteUserFailure(error))
+            dispatch(deleteUserFailure(error.message))
+        }
+    }
+
+    const handleSignOut = async () => {
+        try {
+            const res = await fetch(`/api/user/signout`, {
+                method: "POST"
+            })
+            const data = await res.json()
+
+            if(!res.ok){
+                console.log(data.message)
+            }else{
+                dispatch(signOutSuccess())
+            }
+
+        } catch (error) {
+            
         }
     }
 
@@ -217,8 +235,8 @@ const DashProfile = () => {
 
             <div className="text-red-500 flex justify-between mt-5">
                 <span className='cursor-pointer' onClick={() => setShowModal(true)}>Delete account</span>
-                <span className='cursor-pointer'>Delete account</span>
-            </div>
+                <span className='cursor-pointer' onClick={handleSignOut}>Sign Out</span>
+            </div> 
             {
                 updateUserSuccess &&   (
                     <Alert color={'success'} className='mt-5'>

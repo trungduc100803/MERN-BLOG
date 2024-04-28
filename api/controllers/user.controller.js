@@ -58,7 +58,20 @@ const userController = {
         } catch (error) {
             next(error)
         }
-    } 
+    } ,
+    signOut: async (req, res, next) => {
+        try {
+            return res
+                .clearCookie('access_token')
+                .status(200)
+                .send({
+                    success: true,
+                    message: 'User has been logout'
+                })
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default userController

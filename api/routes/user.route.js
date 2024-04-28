@@ -8,6 +8,7 @@ import userController from '../controllers/user.controller.js';
 
 router.put('/update/:userID',verifyToken, userController.updateUser)
 router.delete('/delete/:userID',verifyToken, userController.deleteUser)
+router.post('/signout', userController.signOut)
 
 
 export default router
