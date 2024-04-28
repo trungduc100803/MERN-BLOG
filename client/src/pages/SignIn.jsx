@@ -26,14 +26,27 @@ const SignIn = () => {
             setErrMessage("Please fill out all fields")
         }
         try {
-
-            const data = await serviceApi.signin(formData)
-            if (data.success) {
+            setErrMessage(null)
+            const res = await fetch('/api/auth/signin', {
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            const data = await res.json()
+            if(data.success === false){
+                return setErrMessage(data.message)
+            }
+            if(res.ok){
                 dispatch(signInSuccess(data.user))
                 navigate('/')
             }
+            // const data = await serviceApi.signin(formData)
+            // if (data.success) {
+            // }
         } catch (error) {
-
+            setErrMessage(error.message)
         }
 
     }
