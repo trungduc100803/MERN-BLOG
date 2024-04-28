@@ -50,7 +50,7 @@ const authController = {
             }
 
             const token = JWT.sign(
-                { id: validUser._id },
+                { id: validUser._id, isAdmin: validUser.isAdmin },
                 process.env.SECRETKEY
             )
 
@@ -78,6 +78,7 @@ const authController = {
                 const token = JWT.sign(
                     {
                         id: user._id,
+                        isAdmin: user.isAdmin
                     },
                     process.env.SECRETKEY
                 )
@@ -101,7 +102,7 @@ const authController = {
                 })
                 await newUser.save()
                 const token = JWTsign(
-                    { id: user._id },
+                    { id: user._id, isAdmin: newUser.isAdmin },
                     process.env.SECRETKEY
                 )
                 const { password, ...rest } = user._doc

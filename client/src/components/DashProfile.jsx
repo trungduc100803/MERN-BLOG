@@ -4,11 +4,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import {Link} from 'react-router-dom'
 import {AiOutlineExclamationCircle} from 'react-icons/ai'
 
 import { app } from '../firebase'
-import serviceApi from '../api/index.api';
 import { updateFailure, updateStart, updateSuccess, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutSuccess } from '../redux/user/userSlice';
+import { routes } from '../routes';
 
 const DashProfile = () => {
     const dispatch = useDispatch()
@@ -231,6 +232,19 @@ const DashProfile = () => {
                 >
                     Update
                 </Button>
+                {
+                    currentUser.isAdmin && (
+                        <Link to={routes.createPost}>
+                            <Button
+                                type='button'
+                                gradientDuoTone={'purpleToPink'}
+                                className='w-full'
+                            >
+                                Create a post
+                            </Button>
+                        </Link>
+                    )
+                }
             </form>
 
             <div className="text-red-500 flex justify-between mt-5">

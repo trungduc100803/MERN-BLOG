@@ -4,5 +4,6 @@ export const routes = {
     signIn: '/sign-in',
     signUp: '/sign-up',
     dashboard: '/dashboard',
-    projects: '/projects'
+    projects: '/projects',
+    createPost: '/create-post'
 }
