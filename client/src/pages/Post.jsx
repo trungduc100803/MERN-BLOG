@@ -1,6 +1,8 @@
 import { Button, Spinner } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import {Link, useParams} from 'react-router-dom'
+import CallToAction from '../components/CallToAction'
+import CommentSection from '../components/CommentSection'
 
 const Post = () => {
 
@@ -9,8 +11,7 @@ const Post = () => {
     const [err, setErr] = useState(false)
     const [post, setPost] = useState(null)
 
-    console.log(post)
-    console.log(slug)
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
@@ -60,6 +61,12 @@ const Post = () => {
         >
 
         </div>
+
+        <div className="max-w-4x mx-auto w-full">
+            <CallToAction/>
+        </div>
+
+        {post && <CommentSection postId={post._id} />}
     </main>
   )
 }
