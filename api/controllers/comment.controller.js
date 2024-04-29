@@ -22,6 +22,20 @@ const CommentController = {
         } catch (error) {
             next(error)
         }
+    },
+    getPostComment: async (req, res, next) => {
+        try {
+            const comments = await Comment.find({postId: req.params.postId})
+                .sort({createdAt: -1})
+
+            return res.status(200).send({
+                success: true,
+                message: "get post comment successfully",
+                comments
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

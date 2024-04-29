@@ -72,7 +72,7 @@ const userController = {
             next(error)
         }
     },
-    getUser: async (req, res, next) => {
+    getUsers: async (req, res, next) => {
         if(!req.user.isAdmin){
             return next(errorHandler(403, "You are not allowed to see all users"))
         }
@@ -108,6 +108,21 @@ const userController = {
                 lastMonthUser,
                 success: true,
                 message: 'get user successfully'
+            })
+        } catch (error) {
+            next(error)
+        }
+    },
+    getUser: async (req, res, next) => {
+        try {
+            const user = await User.findById(req.params.userID)
+            if(!user) return next(errorHandler(404, 'User not found'))
+            const {password, ...rest} = user._doc
+            
+            return res.status(200).send({
+                success: true,
+                message: "get user success",
+                user: rest
             })
         } catch (error) {
             next(error)

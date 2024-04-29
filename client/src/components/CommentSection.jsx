@@ -3,31 +3,54 @@ import { Link } from "react-router-dom"
 
 
 import { routes } from "../routes"
-import { Button, Textarea } from "flowbite-react"
-import { useState } from "react"
+import { Alert, Button, Textarea } from "flowbite-react"
+import { useEffect, useState } from "react"
+import Comment from "./Comment"
+
 export default function CommentSection({postId}) {
     const {currentUser} = useSelector(state => state.user)
     const [comments, setComment] = useState('')
-
-
+    const [commentErr, setCommentErr] = useState(null)
+    const [listComment, setListComment] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         if(comments.length > 200) return 
-        const res = await fetch('/api/comment/create-comment', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({content: comments, postId, userID: currentUser && currentUser._id})
-        })
-        const data = await res.json()
-
-        if(res.ok){
-            setComment('')
+        try {
+            const res = await fetch('/api/comment/create-comment', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({content: comments, postId, userID: currentUser && currentUser._id})
+            })
+            const data = await res.json()
+    
+            if(res.ok){
+                setComment('')
+                setCommentErr(null)
+                setListComment([data, ...listComment])
+            }
+        } catch (error) {
+            setCommentErr(error.message)
         }
     }
 
+    useEffect(() => {
+        const getComments = async () => {
+            try {
+                const res = await fetch(`/api/comment/get-post-comment/${postId}`)
+                if(res.ok){
+                    const data = await res.json()
+                    setListComment(data.comments)
+                }
+                
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+        getComments()
+    }, [postId])
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
         {
@@ -67,7 +90,33 @@ export default function CommentSection({postId}) {
                             Submit
                         </Button>
                     </div>
+
+                    {
+                        commentErr && (
+                            <Alert color={'failure'}>{commentErr}</Alert>
+                        )
+                    }
                 </form>
+            )
+        }
+
+        {
+            listComment.length === 0 ? (
+                <div className="text-sm my-5">No comments yet!!</div>
+            ) : (
+                <>
+                    <div className="text-sm my-5 flex items-center gap-1">
+                        <p>Comments</p>
+                        <div className="border border-gray-400 py-1 px-2 rounded-sm">
+                            <p>{listComment.length}</p>
+                        </div>
+                    </div>
+                    {
+                        listComment.map(comment => (
+                            <Comment key={comment._id} comment={comment} />
+                        ))
+                    }
+                </>
             )
         }
     </div>
