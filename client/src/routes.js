@@ -7,5 +7,6 @@ export const routes = {
     projects: '/projects',
     createPost: '/create-post',
     postDetail: '/post/:slug',
-    post: '/post'
+    post: '/post',
+    updatePost: '/update-post/:postId'
 }

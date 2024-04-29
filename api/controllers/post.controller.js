@@ -84,6 +84,34 @@ const postControllers = {
         } catch (error) {
             next(error)
         }
+    },
+    updatePost: async (req, res, next) => {
+        if(!req.user.isAdmin || req.user.id !== req.params.userID ){
+            return next(errorHandler(403, "You are not allowed to updated this post"))
+        }
+
+        try {
+            const updatedPost = await Post.findByIdAndUpdate(
+                req.params.postId,
+                {
+                    $set: {
+                        title: req.body.title,
+                        content: req.body.content,
+                        category: req.body.category,
+                        image: req.body.image,
+                    }
+                },
+                {new: true}
+            )
+
+            return res.status(200).send({
+                success: true,
+                message: "update post successfully",
+                posts: updatedPost
+            })
+        } catch (error) {
+            
+        }
     }
 }
 

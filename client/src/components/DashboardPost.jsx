@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux'
 import { Link } from "react-router-dom"
 import {AiOutlineExclamationCircle} from 'react-icons/ai'
 
+import { routes } from "../routes"
 
 
 const DashboardPost = () => {
@@ -88,7 +89,7 @@ const DashboardPost = () => {
 
             {
               userPosts.map((post) => (
-                <Table.Body className="divide-y">
+                <Table.Body key={post._id} className="divide-y">
                   <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                     <Table.Cell>
@@ -107,7 +108,7 @@ const DashboardPost = () => {
                       }} className="font-medium text-red-500 hover:underline cursor-pointer">Delete</span>
                     </Table.Cell>
                     <Table.Cell>
-                      <Link className="text-teal-500 hover:underline" to={'/update-post/'+ post._id}> 
+                      <Link className="text-teal-500 hover:underline" to={`/update-post/`+ post._id}> 
                         <span>Edit</span>
                       </Link>
                     </Table.Cell>
