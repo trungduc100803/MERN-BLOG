@@ -1,5 +1,5 @@
 import { Sidebar } from 'flowbite-react'
-import { HiUser, HiArrowRight, HiDocumentText } from 'react-icons/hi'
+import { HiUser, HiArrowRight, HiDocumentText, HiOutlineUser } from 'react-icons/hi'
 import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,11 +49,20 @@ const DashSidebar = () => {
                     </Link>
                     {
                         currentUser.isAdmin && (
-                    <Link to={`${routes.dashboard}?tab=posts`}>
-                        <Sidebar.Item active={tab === 'posts'} as='div' icon={HiDocumentText} >
-                            Posts
-                        </Sidebar.Item>
-                    </Link>
+                        <Link to={`${routes.dashboard}?tab=posts`}>
+                            <Sidebar.Item active={tab === 'posts'} as='div' icon={HiDocumentText} >
+                                Posts
+                            </Sidebar.Item>
+                        </Link>
+                        )
+                    }
+                    {
+                        currentUser.isAdmin && (
+                        <Link to={`${routes.dashboard}?tab=users`}>
+                            <Sidebar.Item active={tab === 'users'} as='div' icon={HiOutlineUser} >
+                                Users
+                            </Sidebar.Item>
+                        </Link>
                         )
                     }
                     <Sidebar.Item icon={HiArrowRight} onClick={handleSignOut} className='cursor-pointer'>

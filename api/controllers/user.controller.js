@@ -45,7 +45,7 @@ const userController = {
         }
     }  ,
     deleteUser: async (req, res, next) => {
-        if(req.user.id !== req.params.userID){
+        if(!req.user.isAdmin && req.user.id !== req.params.userID){
             return next(errorHandler(400, 'You are not allowed to delete this user'))
         }
 
