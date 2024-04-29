@@ -38,7 +38,7 @@ const postControllers = {
             const posts = await Post.find({
                 ...(req.query.userID && {userID: req.query.userID}),
                 ...(req.query.category && { category: req.query.category}),
-                ...(req.query.slug && { category: req.query.slug}),
+                ...(req.query.slug && { slug: req.query.slug}),
                 ...(req.query.postId && { _id: req.query.postId}),
                 ...(req.query.searchTerm && { 
                     $or: [
