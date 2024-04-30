@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 import { routes } from "../routes"
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import Comment from "./Comment"
 
 export default function CommentSection({postId}) {
+    const navigate = useNavigate()
     const {currentUser} = useSelector(state => state.user)
     const [comments, setComment] = useState('')
     const [commentErr, setCommentErr] = useState(null)
@@ -29,7 +30,7 @@ export default function CommentSection({postId}) {
             if(res.ok){
                 setComment('')
                 setCommentErr(null)
-                setListComment([data, ...listComment])
+                setListComment([data.comment, ...listComment])
             }
         } catch (error) {
             setCommentErr(error.message)
@@ -51,6 +52,35 @@ export default function CommentSection({postId}) {
         }
         getComments()
     }, [postId])
+
+    const handleLikeComment = async (commentId) => {
+        try {
+            if(!currentUser){
+                navigate(routes.signIn)
+                return 
+            }
+
+            const res = await fetch(`/api/comment/like-comment/${commentId}`, {
+                method: "PUT"
+            })
+            if(res.ok){
+                const data = await res.json()
+                setListComment(
+                    listComment.map(cmt => 
+                        cmt._id === commentId ?
+                        {
+                            ...cmt,
+                            likes: data.comment.likes,
+                            numberOfLikes: data.comment.likes.length
+                        } :
+                        cmt
+                    )
+                )
+            }
+        } catch (error) {
+            
+        }
+    }
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
         {
@@ -113,7 +143,7 @@ export default function CommentSection({postId}) {
                     </div>
                     {
                         listComment.map(comment => (
-                            <Comment key={comment._id} comment={comment} />
+                            <Comment key={comment._id} comment={comment} onLikeComment={handleLikeComment}/>
                         ))
                     }
                 </>
