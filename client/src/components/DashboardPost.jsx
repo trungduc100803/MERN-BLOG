@@ -143,7 +143,7 @@ const DashboardPost = () => {
                         </div>
                     </div>
                 </Modal.Body>
-            </Modal>
+      </Modal>
     </div>
   )
 }
