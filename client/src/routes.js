@@ -8,5 +8,6 @@ export const routes = {
     createPost: '/create-post',
     postDetail: '/post/:slug',
     post: '/post',
-    updatePost: '/update-post/:postId'
+    updatePost: '/update-post/:postId',
+    search: '/search'
 }
