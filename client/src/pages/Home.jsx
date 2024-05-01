@@ -22,7 +22,7 @@ const Home = () => {
 
     return (
         <div>
-            <div className="flex flex-col gap-6 p-28 p-3 max-w-6xl mx-auto">
+            <div className="flex flex-col gap-6 p-28 max-w-6xl mx-auto">
                 <h3 className="text-3xl font-bold lg:text-6xl">Welcome to my Blog</h3>
                 <p className="text-gray-500 text-xs sm:text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium laboriosam quas magnam ea facere, eaque nihil esse voluptatum error deleniti voluptates delectus adipisci praesentium quidem officiis optio dolorem, nesciunt vel?</p>
                 <Link
@@ -48,6 +48,16 @@ const Home = () => {
                                         <PostCard key={post._id} post={post} />
                                     ))
                                 }
+                            </div>
+                            <div className="flex justify-center mt-10">
+
+                            <Link
+                                to={routes.search}
+                                className=' text-lg text-teal-500 hover:underline '
+                            >
+                                View all posts 
+                            </Link>
+
                             </div>
                         </div>
                     )
